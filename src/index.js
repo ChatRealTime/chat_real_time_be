@@ -5,6 +5,7 @@ import userRoutes from "./routes/user.route.js";
 import messageRoutes from "./routes/message.route.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./lib/db.js";
+import cors from "cors";
 
 const app = express();
 
@@ -16,6 +17,15 @@ app.use(express.json());
 
 //allow to use cookie when received from client
 app.use(cookieParser());
+
+//allow port can be accessed from other domain
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true, // allow to be send cookie from client
+    // allowedHeaders: ["Content-Type", "Authorization"], -> allow to send only Content-Type and Authorization from client
+  })
+);
 
 //use route api
 app.use("/api/auth", authRoutes);
